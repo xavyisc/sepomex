@@ -1,0 +1,7 @@
+export DATABASE_CONNECTOR='mysql+pymysql'
+export DATABASE_USER='xvy'
+export DATABASE_PASSWORD='}Jj312816{}Jsma{'
+export DATABASE_HOST='localhost'
+export DATABASE_PORT='3306'
+export DATABASE_DB='LuaMedicPrueba'
+export FILE_SEPOMEX='/home/xvy/Documentos/workspace/python/SEPOMEX/CPdescarga.txt'
