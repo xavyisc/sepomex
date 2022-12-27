@@ -13,7 +13,7 @@ class Estados(Base):
     id = Column(Integer, primary_key=True)
     nomEstado = Column(String(50), nullable=False)
 
-    # ciudades = relationship("Ciudades", back_populates="estadosCiudades")
+    ciudades = relationship("Ciudades", back_populates="estadosCiudades")
     municipios = relationship('Municipios', back_populates='estadosMunicipios')
 
     def __repr__(self):
@@ -35,21 +35,31 @@ class Municipios(Base):
             f"nomMunicipio={self.nomMunicipio!r}, id_Sepomex={self.id_Sepomex!r})"
 
 
-# class Ciudades(Base):
-#     __tablename__ = "SEPOMEX_ciudades"
-#
-#     id = Column(Integer, primary_key=True)
-#     id_estado = Column(Integer, ForeignKey("SEPOMEX_estados.id"))
-#     nomCiudad = Column(String(100), nullable=True)
-#
-#     estadosCiudades = relationship("Estados", back_populates="ciudades")
-#
-#     def __repr__(self):
-#         return f"Ciudades(id={self.id!r}, id_estado={self.id_estado!r}),"\
-#             f"nomCiudad={self.nomCiudad!r})"
-#
-#
-#
+class Ciudades(Base):
+    __tablename__ = "SEPOMEX_ciudades"
+
+    id = Column(Integer, primary_key=True)
+    id_estado = Column(Integer, ForeignKey("SEPOMEX_estados.id"))
+    nomCiudad = Column(String(100), nullable=True)
+    id_Sepomex = Column (String(100), nullable=True)
+
+    estadosCiudades = relationship("Estados", back_populates="ciudades")
+
+    def __repr__(self):
+        return f"Ciudades(id={self.id!r}, id_estado={self.id_estado!r}),"\
+            f"nomCiudad={self.nomCiudad!r})"
+
+
+class tiposAsentamiento(Base):
+    __tablename__ = "SEPOMEX_tiposAsentamiento"
+
+    id = Column(Integer, primary_key=True)
+    nomTipoAsentamiento = Column(String(100), nullable=False)
+
+    def __repr__(self):
+        return f"tiposAsentamiento(id={self.id!r},"\
+            f"nomTipoAsentamiento={self.nomTipoAsentamiento!r})"
+
 
 class Sepomex(Base):
     __tablename__ = "SEPOMEX"
@@ -90,6 +100,7 @@ class Sepomex(Base):
             f"d_zona={self.d_zona!r}"\
             f"c_cve_ciudad={self.c_cve_ciudad!r})"
 
+Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 

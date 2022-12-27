@@ -1,10 +1,6 @@
 from models import Sepomex as s
-from engine import engine
 from sqlalchemy import (
-    insert, select, cast, Integer, null
-)
-from sqlalchemy.orm import (
-    Session
+    select, cast, Integer, null
 )
 
 def getDatosLIst(file):
@@ -29,45 +25,21 @@ def getEstados():
 
 
 def getMunicipios():
-    # municipios = []
-    # sMunicipios = select(s.c_mnpio,
-    #                      s.c_estado,
-    #                      s.D_mnpio).distinct().order_by(s.c_estado)
-
     return select(null().label('id'),
                   s.c_estado,
                   s.D_mnpio,
                   s.c_mnpio,
                   ).distinct().order_by(s.c_estado, s.c_mnpio)
 
-    # with engine.connect() as conn:
-    #     rMunicipios = conn.execute(
-    #         sMunicipios
-    #     )
-    #     for i, m in enumerate(rMunicipios, 1):
-    #         municipios.append({"id": i, "id_estado": m[1],
-    #                            "nomMunicipio": m[2]})
-    #
-    # return municipios
 
 def getCiudades():
-    ciudades = []
-    sCiudades = select(s.c_cve_ciudad,
-                       s.c_estado,
-                       s.d_ciudad).distinct().where(s.c_cve_ciudad!='',
-                                                    s.d_ciudad!='').order_by(
-                                                        s.c_estado
-                                                    )
-    with engine.connect() as conn:
-        rCiudades = conn.execute(
-            sCiudades
-        )
-        for i, c in enumerate(rCiudades, 1):
-            ciudades.append({"id": i, "id_estado": c[1], "nomCiudad": c[2]})
+    return select(null().label('id'),
+                  s.c_estado,
+                  s.d_ciudad,
+                  s.c_cve_ciudad,
+                  ).distinct().where(s.d_ciudad!="").order_by(s.c_estado,
+                                                              s.c_cve_ciudad)
 
-    return ciudades
-
-
-def getAsentamientosTipo():
+def getTiposAsentamiento():
     return select(s.c_tipo_asenta,
                   s.d_tipo_asenta).distinct().order_by(s.c_tipo_asenta)
