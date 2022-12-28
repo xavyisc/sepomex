@@ -1,5 +1,6 @@
 from cpSEPOMEX import (
-    getDatosLIst, getEstados, getCiudades, getMunicipios, getTiposAsentamiento
+    getDatosLIst, getEstados, getCiudades, getMunicipios, getTiposAsentamiento,
+    getAsentamientos
 )
 
 from models import (

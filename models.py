@@ -4,7 +4,7 @@ from sqlalchemy.orm import (
     relationship
 )
 from sqlalchemy import (
-    Table, Column, String, Integer, ForeignKey, text
+    Column, String, Integer, ForeignKey, text
 )
 
 class Estados(Base):
@@ -61,6 +61,16 @@ class tiposAsentamiento(Base):
             f"nomTipoAsentamiento={self.nomTipoAsentamiento!r})"
 
 
+# class Asentamientos(Base):
+#     __table__ = "SEPOMEX_Asentamientos"
+#
+#     id = Column(Integer, primary_key=True)
+#
+#     id_tipoAsentamiento = Column(Integer,
+#                                  ForeignKey("SEPOMEX_tiposAsentamiento.id"))
+#     id_municipio = Column(Integer, ForeignKey("SEPOMEX_municipios.id"),
+#                           nullable=False)
+#
 class Sepomex(Base):
     __tablename__ = "SEPOMEX"
 
@@ -87,7 +97,7 @@ class Sepomex(Base):
         return f"Sepomex(id={self.id!r}, d_codigo={self.d_codigo!r},"\
             f"d_aseta={self.d_asenta!r},"\
             f"d_tipo_asenta={self.d_tipo_asenta!r},"\
-            f"d_mnpio={self.d_mnpio!r},"\
+            f"D_mnpio={self.D_mnpio!r},"\
             f"d_estado={self.d_estado!r},"\
             f"d_ciudad={self.d_ciudad!r},"\
             f"d_CP={self.d_CP!r},"\
@@ -100,7 +110,7 @@ class Sepomex(Base):
             f"d_zona={self.d_zona!r}"\
             f"c_cve_ciudad={self.c_cve_ciudad!r})"
 
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
+#  Base.metadata.drop_all(engine)
+#  Base.metadata.create_all(engine)
 
 

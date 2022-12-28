@@ -43,3 +43,7 @@ def getCiudades():
 def getTiposAsentamiento():
     return select(s.c_tipo_asenta,
                   s.d_tipo_asenta).distinct().order_by(s.c_tipo_asenta)
+
+
+def getAsentamientos():
+    pass
