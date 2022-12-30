@@ -110,7 +110,7 @@ class Sepomex(Base):
             f"d_zona={self.d_zona!r}"\
             f"c_cve_ciudad={self.c_cve_ciudad!r})"
 
-#  Base.metadata.drop_all(engine)
-#  Base.metadata.create_all(engine)
+# Base.metadata.drop_all(engine)
+# Base.metadata.create_all(engine)
 
 
