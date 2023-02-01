@@ -11,7 +11,7 @@ class Estados(Base):
     __tablename__ = "SEPOMEX_estados"
 
     id = Column(Integer, primary_key=True)
-    nomEstado = Column(String(50), nullable=False)
+    nomEstado = Column(String(60), nullable=False)
 
     ciudades = relationship("Ciudades", back_populates="estadosCiudades")
     municipios = relationship('Municipios', back_populates='estadosMunicipios')
@@ -62,13 +62,13 @@ class tiposAsentamiento(Base):
 
 
 # class Asentamientos(Base):
-#     __table__ = "SEPOMEX_Asentamientos"
+#     __table__ = "sepomex_Asentamientos"
 #
 #     id = Column(Integer, primary_key=True)
 #
 #     id_tipoAsentamiento = Column(Integer,
-#                                  ForeignKey("SEPOMEX_tiposAsentamiento.id"))
-#     id_municipio = Column(Integer, ForeignKey("SEPOMEX_municipios.id"),
+#                                  ForeignKey("sepomex_tiposAsentamiento.id"))
+#     id_municipio = Column(Integer, ForeignKey("sepomex_municipios.id"),
 #                           nullable=False)
 #
 class Sepomex(Base):
