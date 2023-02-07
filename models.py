@@ -61,16 +61,26 @@ class tiposAsentamiento(Base):
             f"nomTipoAsentamiento={self.nomTipoAsentamiento!r})"
 
 
-# class Asentamientos(Base):
-#     __table__ = "sepomex_Asentamientos"
-#
-#     id = Column(Integer, primary_key=True)
-#
-#     id_tipoAsentamiento = Column(Integer,
-#                                  ForeignKey("sepomex_tiposAsentamiento.id"))
-#     id_municipio = Column(Integer, ForeignKey("sepomex_municipios.id"),
-#                           nullable=False)
-#
+class Asentamientos(Base):
+    __table__ = "sepomex_Asentamientos"
+
+    id = Column(Integer, primary_key=True)
+
+    id_tipoAsentamiento = Column(Integer,
+                                 ForeignKey("sepomex_tiposAsentamiento.id"))
+    id_municipio = Column(Integer, ForeignKey("sepomex_municipios.id"),
+                          nullable=False)
+    id_ciudad = Column(Integer, ForeignKey("sepomex_ciudades.id"),
+                       nullable=False)
+    nomAsentamiento = Column(String(140), nullable=False)
+
+i   asentamietosTipo = relationship("tipoAsentamiento",
+                                    back_populates="Asetamientos")
+
+
+    def __repr__(self):
+        pass
+
 class Sepomex(Base):
     __tablename__ = "SEPOMEX"
 
