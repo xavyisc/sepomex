@@ -29,6 +29,8 @@ class Municipios(Base):
     id_Sepomex = Column(String(100), nullable=True)
 
     estadosMunicipios = relationship('Estados', back_populates='municipios')
+    asentamientosMunicipios = relationship("Asentamientos",
+                                           back_populates="municipiosa")
 
     def __repr__(self):
         return f"Municipios(id={self.id!r}, id_estado={self.id_estado!r},"\
@@ -44,6 +46,8 @@ class Ciudades(Base):
     id_Sepomex = Column (String(100), nullable=True)
 
     estadosCiudades = relationship("Estados", back_populates="ciudades")
+    asentamientosCiudades = relationship("Asentamientos",
+                                 back_populates="ciudadesa")
 
     def __repr__(self):
         return f"Ciudades(id={self.id!r}, id_estado={self.id_estado!r}),"\
@@ -56,30 +60,40 @@ class tiposAsentamiento(Base):
     id = Column(Integer, primary_key=True)
     nomTipoAsentamiento = Column(String(100), nullable=False)
 
+    asentamientos = relationship("Asentamientos",
+                                 back_populates="asentamientosTipo")
+
     def __repr__(self):
         return f"tiposAsentamiento(id={self.id!r},"\
             f"nomTipoAsentamiento={self.nomTipoAsentamiento!r})"
 
 
 class Asentamientos(Base):
-    __table__ = "sepomex_Asentamientos"
+    __tablename__ = "SEPOMEX_asentamientos"
 
     id = Column(Integer, primary_key=True)
 
     id_tipoAsentamiento = Column(Integer,
-                                 ForeignKey("sepomex_tiposAsentamiento.id"))
-    id_municipio = Column(Integer, ForeignKey("sepomex_municipios.id"),
+                                 ForeignKey("SEPOMEX_tiposAsentamiento.id"))
+    id_municipio = Column(Integer, ForeignKey("SEPOMEX_municipios.id"),
                           nullable=False)
-    id_ciudad = Column(Integer, ForeignKey("sepomex_ciudades.id"),
+    id_ciudad = Column(Integer, ForeignKey("SEPOMEX_ciudades.id"),
                        nullable=False)
     nomAsentamiento = Column(String(140), nullable=False)
 
-i   asentamietosTipo = relationship("tipoAsentamiento",
-                                    back_populates="Asetamientos")
-
+    asentamientosTipo = relationship("tiposAsentamiento",
+                                    back_populates="asentamientos")
+    ciudadesa = relationship("Ciudades",
+                           back_populates="asentamientosCiudades")
+    municipiosa = relationship("Municipios",
+                              back_populates="asentamientosMunicipios")
 
     def __repr__(self):
-        pass
+        return f"Aentamientos(id={self.id!r},"\
+            f"id_tipoAsentamiento={self.id_tipoAsentamiento},"\
+            f"id_municipio={self.id_municipio!r},"\
+            f"id_ciudad={self.id_ciudadi!r},"\
+            f"nomAsentamiento={self.nomAsentamiento!r})"
 
 class Sepomex(Base):
     __tablename__ = "SEPOMEX"
@@ -121,6 +135,6 @@ class Sepomex(Base):
             f"c_cve_ciudad={self.c_cve_ciudad!r})"
 
 # Base.metadata.drop_all(engine)
-# Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)
 
 

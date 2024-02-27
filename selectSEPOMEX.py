@@ -11,4 +11,4 @@ with Session(engine) as session:
     )
     print(estados)
     for e in estados:
-        print(e)
+

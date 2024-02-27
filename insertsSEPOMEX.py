@@ -4,7 +4,7 @@ from cpSEPOMEX import (
 )
 
 from models import (
-    Sepomex, Estados, Municipios, Ciudades, tiposAsentamiento
+    Sepomex, Estados, Municipios, Ciudades, tiposAsentamiento, Asentamientos
 )
 
 from engine import engine
@@ -31,6 +31,7 @@ estados = getEstados()
 municipios = getMunicipios()
 ciudades = getCiudades()
 tiposAsentamientos = getTiposAsentamiento()
+asentamientos = getAsentamientos()
 
 with Session(engine) as session:
     """ se insertan estados a partir de insert into select """
@@ -43,7 +44,7 @@ with Session(engine) as session:
     municipios = session.execute(
         insert(Municipios).from_select(["id", "id_estado", "nomMunicipio",
                                         "id_Sepomex"], municipios)
-    )
+)
 
     """ se insertan ciudades a partir del insert into con los valores  de
     ciudades"""
@@ -59,10 +60,16 @@ with Session(engine) as session:
                                               tiposAsentamientos)
     )
 
-#      """ inserta tipos de Asentamiento a partir de insert into select """
-#      tiposAsentamiento = session.execute(
-#          insert(AsentamientosTipo).from_select(["id", "nomTipoAsentamiento"],
-#                                           tiposAsentamientos)
-#      )
+    """ inserta tipos de Asentamiento a partir de insert into select con los
+    valores de asentamientos """
+    # tiposAsentamiento = session.execute(
+    #     insert(Asentamientos).from_select(["id",
+    #                                        "id_tipoAsentamiento",
+    #                                        "id_municipio",
+    #                                        "id_ciudad",
+    #                                        "nomAsentamiento"],
+    #                                       asentamientos)
+    # )
+    #
     session.commit()
 

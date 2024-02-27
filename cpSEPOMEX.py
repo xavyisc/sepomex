@@ -1,6 +1,13 @@
-from models import Sepomex as s
+from models import (
+    Sepomex, tiposAsentamiento, Municipios, Ciudades
+)
+
 from sqlalchemy import (
     select, cast, Integer, null
+)
+
+from sqlalchemy.orm import (
+    aliased
 )
 
 def getDatosLIst(file):
@@ -18,6 +25,7 @@ def getDatosLIst(file):
 
     return lDatos
 
+s = aliased(Sepomex)
 
 def getEstados():
     return select(cast(s.c_estado, Integer()),
@@ -46,4 +54,12 @@ def getTiposAsentamiento():
 
 
 def getAsentamientos():
-    pass
+    ta = aliased(tiposAsentamiento)
+    c = aliased(Ciudades)
+    m = aliased(Municipios)
+    return select(null().label('id'),
+                  ta.id.label('id_tipoAsentamiento'),
+                  m.id.label('id_municipio'),
+                  c.id.label('id_ciudad'),
+                  s.d_asenta.label('nomAsentamiento'),
+                  ).distinct().join(s.c_tipo_asenta)
