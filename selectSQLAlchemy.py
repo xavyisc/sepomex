@@ -27,16 +27,16 @@ from models import Sepomex
 
 #  print(select(Sepomex))
 with Session(engine) as session:
-    row = session.execute(select(Sepomex)).first()
-    print(row)
-    sepo = session.scalars(select(Sepomex)).first()
-    print(sepo)
+    # row = session.execute(select(Sepomex)).first()
+    # print(row)
+    # sepo = session.scalars(select(Sepomex)).first()
+    # print(sepo)
     i = session.execute(select(Sepomex.d_codigo,
                                Sepomex.c_cve_ciudad,
                                Sepomex.d_ciudad,
                                Sepomex.c_estado,
-                               Sepomex.d_estado)).first()
-    print(i)
+                               Sepomex.d_estado)).scalars()
+    print(i.c_cve_ciudad, i.d_ciudad)
 #  stmt = select(Sepomex).where(Sepomex.d_codigo=="40270")
 #  with Session(engine) as session:
 #      for row in session.execute(stmt):

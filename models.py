@@ -1,4 +1,4 @@
-from engine import Base, engine
+from engine import Base, engineLuaMedic as engine
 
 from sqlalchemy.orm import (
     relationship
@@ -12,12 +12,12 @@ class Estados(Base):
 
     id = Column(Integer, primary_key=True)
     nomEstado = Column(String(60), nullable=False)
-
+    claveAlfaNumerica = Column(String(5), nullable=False)
     ciudades = relationship("Ciudades", back_populates="estadosCiudades")
     municipios = relationship('Municipios', back_populates='estadosMunicipios')
 
     def __repr__(self):
-        return f"Estados(id={self.id!r}, nomEstado={self.nomEstado!r})"
+        return f"[id={self.id!r}, nomEstado={self.nomEstado!r}, claveAlfaNumerica={self.claveAlfaNumerica!r}"
 
 
 class Municipios(Base):
@@ -29,8 +29,8 @@ class Municipios(Base):
     id_Sepomex = Column(String(100), nullable=True)
 
     estadosMunicipios = relationship('Estados', back_populates='municipios')
-    asentamientosMunicipios = relationship("Asentamientos",
-                                           back_populates="municipiosa")
+    # asentamientosMunicipios = relationship("Asentamientos",
+    #                                        back_populates="municipiosa")
 
     def __repr__(self):
         return f"Municipios(id={self.id!r}, id_estado={self.id_estado!r},"\
@@ -43,21 +43,20 @@ class Ciudades(Base):
     id = Column(Integer, primary_key=True)
     id_estado = Column(Integer, ForeignKey("SEPOMEX_estados.id"))
     nomCiudad = Column(String(100), nullable=True)
-    id_Sepomex = Column (String(100), nullable=True)
+    id_sepomex = Column (String(100), nullable=True)
 
     estadosCiudades = relationship("Estados", back_populates="ciudades")
-    asentamientosCiudades = relationship("Asentamientos",
-                                 back_populates="ciudadesa")
+    # asentamientosCiudades = relationship("Asentamientos",
+    #                              back_populates="ciudadesa")
 
     def __repr__(self):
         return f"Ciudades(id={self.id!r}, id_estado={self.id_estado!r}),"\
-            f"nomCiudad={self.nomCiudad!r})"
+            f"nomCiudad={self.nomCiudad!r}, id_sepomex={self.id_sepomex!r})"
 
-
-class tiposAsentamiento(Base):
+class TiposAsentamiento(Base):
     __tablename__ = "SEPOMEX_tiposAsentamiento"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True) 
     nomTipoAsentamiento = Column(String(100), nullable=False)
 
     asentamientos = relationship("Asentamientos",
@@ -75,18 +74,18 @@ class Asentamientos(Base):
 
     id_tipoAsentamiento = Column(Integer,
                                  ForeignKey("SEPOMEX_tiposAsentamiento.id"))
-    id_municipio = Column(Integer, ForeignKey("SEPOMEX_municipios.id"),
-                          nullable=False)
-    id_ciudad = Column(Integer, ForeignKey("SEPOMEX_ciudades.id"),
-                       nullable=False)
+    id_municipio = Column(Integer, nullable=True)
+    id_ciudad = Column(String(20), nullable=True)
+    id_estado = Column(Integer, nullable=True)
     nomAsentamiento = Column(String(140), nullable=False)
+    codigoPostal = Column(Integer, nullable=False)
 
-    asentamientosTipo = relationship("tiposAsentamiento",
+    asentamientosTipo = relationship("TiposAsentamiento",
                                     back_populates="asentamientos")
-    ciudadesa = relationship("Ciudades",
-                           back_populates="asentamientosCiudades")
-    municipiosa = relationship("Municipios",
-                              back_populates="asentamientosMunicipios")
+    # ciudadesa = relationship("Ciudades",
+                           # back_populates="asentamientosCiudades")
+    # municipiosa = relationship("Municipios",
+                              # back_populates="asentamientosMunicipios")
 
     def __repr__(self):
         return f"Aentamientos(id={self.id!r},"\
@@ -108,14 +107,15 @@ class Sepomex(Base):
     d_estado = Column(String(100), nullable=False)
     d_ciudad = Column(String(100), nullable=False)
     d_CP = Column(String(20), nullable=True)
-    c_estado = Column(String(100), nullable=False)
+    c_estado = Column(Integer, nullable=False)
     c_oficina = Column(String(100), nullable=False)
     c_CP = Column(String(20), nullable=False)
     c_tipo_asenta = Column(Integer, nullable=False)
-    c_mnpio = Column(Integer, nullable=True)
+    c_mnpio = Column(String(20), nullable=True)
     id_asenta_cpcons = Column(Integer, nullable=False)
     d_zona = Column(String(100), nullable=True)
     c_cve_ciudad = Column(String(10), nullable=True)
+    cve_alfa_numerica = Column(String(5), nullable=False)
 
     def __repr__(self):
         return f"Sepomex(id={self.id!r}, d_codigo={self.d_codigo!r},"\
@@ -134,7 +134,22 @@ class Sepomex(Base):
             f"d_zona={self.d_zona!r}"\
             f"c_cve_ciudad={self.c_cve_ciudad!r})"
 
+
 # Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
+def createData():
+    print("="*100)
+    print("Iniciando...")
+    print("="*100)
+
+    print("="*100)
+    print("Eliminando Base de datos si existe...")
+    print("="*100)
+    Base.metadata.drop_all(engine)
+
+    print("="*100)
+    print("Creando estructura de Base de datos...")
+    print("="*100)
+    Base.metadata.create_all(engine)
 
 
