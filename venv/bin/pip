@@ -1,4 +1,4 @@
-#!/home/xvy/Documentos/workspace/python/SEPOMEX/venv/bin/python
+#!/home/xvy/Documentos/workspace/python/sepomex/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
