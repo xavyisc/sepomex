@@ -10,7 +10,7 @@ from getData import (
     getAsentamientos
 )
 
-from engine import engineLuaMedic as engine
+from engine import dEngineLuaMedicDeploy as engine
 
 from sqlalchemy import (
     insert, select, null
